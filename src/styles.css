@@ -13,9 +13,9 @@ body {
 }
 
 .text-right-nopadding {
+  font-size:small;
   color: white;
 }
-
 
 .nav-link {
   color: orange;

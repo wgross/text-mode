@@ -22,6 +22,10 @@ export class ProfilegraphComponent implements OnInit {
     await this.readData();
     this.drawGraph();
     this.createForceSimulation();
+    this.attachZoomAndPanning();
+  }
+  attachZoomAndPanning() {
+    this.svg.call(d3.zoom().on('zoom',(ev:any)=>this.svg.attr('transform', ev.transform)));
   }
 
   private nodesData: ProfileNode[] = [];
@@ -42,8 +46,10 @@ export class ProfilegraphComponent implements OnInit {
   }
 
   drawGraph(): void {
-    // width and viewport are defined in html
+    // select the SVG with id graph to draw in
     this.svg = d3.select("svg#graph");
+    // add all edges before nodes. Nodes will hav higher z-order and
+    // will hde the edged behind them
     this.drawEdges();
     this.drawNodes();
   }
@@ -57,19 +63,21 @@ export class ProfilegraphComponent implements OnInit {
       .append('g').attr('class', 'nodes')
       .selectAll('circle').data(this.nodesData)
       .enter()
-      .append('circle').attr('r', (n:any) => n.weight).attr('fill', (n: any) => color(n.group.toString()))
+      .append('circle').attr('r', (n: any) => n.weight).attr('fill', (n: any) => color(n.group.toString()))
       .call(d3.drag()
         .on('start', (ev, d) => this.dragStarted(ev, d))
         .on('drag', (ev, d) => this.dragged(ev, d))
         .on('end', (ev, d) => this.dragEnded(ev, d)));
 
+    // add a popup with the id
     this.nodesDrawn.append('title').text((n: any) => n.id);
 
+    // draw the id as text right next to the nodes shape
     this.textsDrawn = this.svg.append('g')
       .selectAll('text').data(this.nodesData)
       .enter()
       .append('text')
-      .text((n: any) => n.id).attr('font-size', 14).attr('dx', 10).attr('dy', 4).attr('fill','lightgray');
+      .text((n: any) => n.id).attr('font-size', 14).attr('dx', 15).attr('dy', 4).attr('fill', 'lightgray');
   }
 
 
@@ -92,10 +100,7 @@ export class ProfilegraphComponent implements OnInit {
       .force('charge', d3.forceManyBody())
       .force('center', d3.forceCenter(w / 2, h / 2));
 
-    this.simulation.nodes(this.nodesData).on('tick', () => this.ticked(
-      this.nodesDrawn,
-      this.linksDrawn,
-      this.textsDrawn));
+    this.simulation.nodes(this.nodesData).on('tick', () => this.ticked());
 
     this.simulation.force<d3.ForceLink<ProfileNode, ProfileLink>>('link')?.links(this.linksData);
   }
@@ -103,8 +108,8 @@ export class ProfilegraphComponent implements OnInit {
   // event handlers for d3
 
   dragged(event: any, item: any): any {
-    item.fx = Math.max(0,Math.min(700,event.x));
-    item.fy = Math.max(0,Math.min(600,event.y));
+    item.fx = Math.max(0, Math.min(700, event.x));
+    item.fy = Math.max(0, Math.min(600, event.y));
   }
 
   dragStarted(event: any, item: any): any {
@@ -119,13 +124,13 @@ export class ProfilegraphComponent implements OnInit {
     item.fy = null;
   }
 
-  ticked(nodes: any, links: any, texts: any): void {
-    links
+  ticked(): void {
+    this.linksDrawn
       .attr('x1', (d: any) => d.source.x).attr('y1', (d: any) => d.source.y)
       .attr('x2', (d: any) => d.target.x).attr('y2', (d: any) => d.target.y);
 
-    nodes.attr('cx', (d: any) => d.x).attr('cy', (d: any) => d.y);
+    this.nodesDrawn.attr('cx', (d: any) => d.x).attr('cy', (d: any) => d.y);
 
-    texts.attr('x', (d: any) => d.x).attr('y', (d: any) => d.y);
+    this.textsDrawn.attr('x', (d: any) => d.x).attr('y', (d: any) => d.y);
   }
 }

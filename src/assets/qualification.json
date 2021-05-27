@@ -1,22 +1,22 @@
 {
   "nodes": [
-    {"id": "C#", "group": 1, "weight":15},
+    {"id": "C#", "group": 1, "weight":16},
     {"id": "Typescript", "group": 1,"weight":4},
     {"id": "Java", "group": 1, "weight":2},
     {"id": "C++", "group": 1, "weight":4},
     {"id": "WiX", "group": 1, "weight":6},
-    {"id": "SQL", "group": 1, "weight":7},
+    {"id": "SQL", "group": 1, "weight":8},
 
     {"id": "Entity-Framework", "group":2 , "weight":10},
     {"id": "WPF", "group":2 ,"weight":9},
     {"id": "WinForms", "group":2 ,"weight":3},
     {"id": "Angular", "group":2 ,"weight":4},
     {"id": ".Net", "group":2 ,"weight":8},
-    {"id": ".NetCore", "group":2 ,"weight":10},
+    {"id": ".NetCore", "group":2 ,"weight":16},
     {"id": "Asp.Net", "group":2 ,"weight":8},
-    {"id": "Spring.Boot", "group":2 ,"weight":1},
+    {"id": "Spring.Boot", "group":2 ,"weight":2},
 
-    {"id": "Microservices","group":3,"weight":10},
+    {"id": "Microservices","group":3,"weight":8},
     {"id": "Webservices","group":3,"weight":8},
     {"id": "Desktop", "group": 3 ,"weight":9},
 
@@ -34,6 +34,9 @@
     {"source": "C#", "target": "WinForms", "value": 1},
     {"source": "C#", "target": ".Net", "value": 1},
     {"source": "C#", "target": ".NetCore", "value": 1},
+
+    {"source": "Entity-Framework", "target": ".Net", "value": 1},
+    {"source": "Entity-Framework", "target": ".NetCore", "value": 1},
 
     {"source": "Typescript", "target": "Angular", "value": 1},
     {"source": "Java", "target": "Spring.Boot", "value": 1},
