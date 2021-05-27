@@ -1,10 +1,10 @@
 {
   "nodes": [
     {"id": "C#", "group": 1, "weight":16},
-    {"id": "Typescript", "group": 1,"weight":4},
+    {"id": "TypeScript", "group": 1,"weight":4},
     {"id": "Java", "group": 1, "weight":2},
     {"id": "C++", "group": 1, "weight":4},
-    {"id": "WiX", "group": 1, "weight":6},
+    {"id": "WIX", "group": 1, "weight":6},
     {"id": "SQL", "group": 1, "weight":8},
 
     {"id": "Entity-Framework", "group":2 , "weight":10},
@@ -38,14 +38,14 @@
     {"source": "Entity-Framework", "target": ".Net", "value": 1},
     {"source": "Entity-Framework", "target": ".NetCore", "value": 1},
 
-    {"source": "Typescript", "target": "Angular", "value": 1},
+    {"source": "TypeScript", "target": "Angular", "value": 1},
     {"source": "Java", "target": "Spring.Boot", "value": 1},
 
     {"source": "C++", "target": "Desktop", "value": 1},
 
     {"source": "Desktop", "target": "WPF", "value": 1},
     {"source": "Desktop", "target": "WinForms", "value": 1},
-    {"source": "Desktop", "target": "WiX", "value": 1},
+    {"source": "Desktop", "target": "WIX", "value": 1},
     {"source": "Desktop", "target": "SQL", "value": 1},
 
     {"source": "Webservices", "target": ".Net", "value": 1},

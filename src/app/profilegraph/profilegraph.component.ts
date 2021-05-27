@@ -11,9 +11,9 @@ import { ProfileNode, ProfileLink } from "../profile-node";
 })
 export class ProfilegraphComponent implements OnInit {
 
-  nodesDrawn?: any;
-  linksDrawn?: any;
-  textsDrawn?: any;
+  nodesSelection?: any;
+  linksSelection?: any;
+  textsSelection?: any;
   simulation?: d3.Simulation<d3.SimulationNodeDatum, undefined>;
 
   constructor() { }
@@ -24,9 +24,7 @@ export class ProfilegraphComponent implements OnInit {
     this.createForceSimulation();
     this.attachZoomAndPanning();
   }
-  attachZoomAndPanning() {
-    this.svg.call(d3.zoom().on('zoom',(ev:any)=>this.svg.attr('transform', ev.transform)));
-  }
+
 
   private nodesData: ProfileNode[] = [];
   private linksData: ProfileLink[] = [];
@@ -59,10 +57,11 @@ export class ProfilegraphComponent implements OnInit {
     const color = d3.scaleOrdinal(d3.schemeCategory10);
 
     // draw the circles representing nodes
-    this.nodesDrawn = this.svg
+    this.nodesSelection = this.svg
       .append('g').attr('class', 'nodes')
       .selectAll('circle').data(this.nodesData)
       .enter()
+      // radius is a dynamic data depending on property 'wight' of the nodes bound data
       .append('circle').attr('r', (n: any) => n.weight).attr('fill', (n: any) => color(n.group.toString()))
       .call(d3.drag()
         .on('start', (ev, d) => this.dragStarted(ev, d))
@@ -70,26 +69,37 @@ export class ProfilegraphComponent implements OnInit {
         .on('end', (ev, d) => this.dragEnded(ev, d)));
 
     // add a popup with the id
-    this.nodesDrawn.append('title').text((n: any) => n.id);
+    this.nodesSelection.append('title').text((n: any) => n.id);
 
     // draw the id as text right next to the nodes shape
-    this.textsDrawn = this.svg.append('g')
+    this.textsSelection = this.svg.append('g')
       .selectAll('text').data(this.nodesData)
       .enter()
       .append('text')
       .text((n: any) => n.id).attr('font-size', 14).attr('dx', 15).attr('dy', 4).attr('fill', 'lightgray');
   }
 
-
   drawEdges(): void {
-    this.linksDrawn = this.svg
+    this.linksSelection = this.svg
       .append('g').attr('class', 'links')
       .selectAll('line').data(this.linksData)
       .enter()
       .append('line')
       .attr('stroke', 'gray')
+      // the width is a dynamic property depending on the property 'value' of the links bound data
       .attr('stroke-width', (l: any) => Math.sqrt(l.value))
       .attr('color', 'white');
+  }
+
+  attachZoomAndPanning() {
+    // this.svg.call(d3.zoom()
+    //   .scaleExtent([0.5, 1.5])
+    //   .on('zoom', (ev: any) => this.svg.attr('transform', ev.transform)));
+
+    // problem: the while svg gets zoomed
+    // this.svg.call(d3.zoom()
+    //   .scaleExtent([0.5, 1.5])
+    //   .on('zoom', (ev: any) => this.zoomed(ev)));
   }
 
   createForceSimulation(): void {
@@ -108,8 +118,10 @@ export class ProfilegraphComponent implements OnInit {
   // event handlers for d3
 
   dragged(event: any, item: any): any {
-    item.fx = Math.max(0, Math.min(700, event.x));
-    item.fy = Math.max(0, Math.min(600, event.y));
+    const w = this.svg.attr('width');
+    const h = this.svg.attr('height');
+    item.fx = Math.max(0, Math.min(w, event.x));
+    item.fy = Math.max(0, Math.min(h, event.y));
   }
 
   dragStarted(event: any, item: any): any {
@@ -125,12 +137,47 @@ export class ProfilegraphComponent implements OnInit {
   }
 
   ticked(): void {
-    this.linksDrawn
+    this.linksSelection
       .attr('x1', (d: any) => d.source.x).attr('y1', (d: any) => d.source.y)
       .attr('x2', (d: any) => d.target.x).attr('y2', (d: any) => d.target.y);
 
-    this.nodesDrawn.attr('cx', (d: any) => d.x).attr('cy', (d: any) => d.y);
+    this.nodesSelection.attr('cx', (d: any) => d.x).attr('cy', (d: any) => d.y);
 
-    this.textsDrawn.attr('x', (d: any) => d.x).attr('y', (d: any) => d.y);
+    this.textsSelection.attr('x', (d: any) => d.x).attr('y', (d: any) => d.y);
+  }
+
+  private tx: number = 0;
+  private ty: number = 0;
+  private scale: number = 1;
+
+  zoomed(event: any): void {
+
+    // prevent default event behavior
+    //event.preventDefault();
+
+    // set zooming
+    var factor = 1.1;
+    var center = d3.pointer(event);
+    console.log(center);
+    var newTx, newTy, newScale;
+
+    // calculate new scale
+    if (event.sourceEvent.deltaY > 0) {
+      newScale = this.scale * factor;
+    } else {
+      newScale = this.scale / factor;
+    }
+
+    // calculate new translate position
+    // [current mouse position] - ([current mouse position] - [current translate]) * magnification
+    newTx = center[0] - (center[0] - this.tx) * newScale / this.scale;
+    newTy = center[1] - (center[1] - this.ty) * newScale / this.scale;
+
+    // set new scale and translate position
+    this.scale = newScale;
+    this.tx = newTx;
+    this.ty = newTy;
+
+    this.svg.attr('transform', `translate(${this.tx}, ${this.ty}) scale(${this.scale})`);
   }
 }
