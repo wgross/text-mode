@@ -28,7 +28,8 @@ export class ProfilegraphComponent implements OnInit {
 
   private nodesData: ProfileNode[] = [];
   private linksData: ProfileLink[] = [];
-  private svg?: any;
+  private graphSelection?: any;
+  private listenerRect? :any;
 
   async readData(): Promise<void> {
     await d3.json("assets/qualification.json").then((data: any) => {
@@ -45,11 +46,27 @@ export class ProfilegraphComponent implements OnInit {
 
   drawGraph(): void {
     // select the SVG with id graph to draw in
-    this.svg = d3.select("svg#graph");
+    //this.graphSelection = d3.select("rect#listenerRect");
+    this.drawGraphContainer();
     // add all edges before nodes. Nodes will hav higher z-order and
     // will hde the edged behind them
     this.drawEdges();
     this.drawNodes();
+  }
+
+  drawGraphContainer(): void {
+    this.graphSelection = this.graphSelection = d3.select("#graphContainer")
+      .append('svg').attr('width', 700).attr('height', 600)
+      .append('g').attr('class', 'graph')
+      .attr('transform', 'translate(300, 300)');
+
+
+    this.listenerRect = this.graphSelection.append('rect')
+      .attr('class', 'listener-rect')
+      .attr('x', -300).attr('y', -300)
+      .attr('width', 600)
+      .attr('height',700)
+      .style('opacity', 0);
   }
 
   drawNodes(): void {
@@ -57,7 +74,7 @@ export class ProfilegraphComponent implements OnInit {
     const color = d3.scaleOrdinal(d3.schemeCategory10);
 
     // draw the circles representing nodes
-    this.nodesSelection = this.svg
+    this.nodesSelection = this.graphSelection
       .append('g').attr('class', 'nodes')
       .selectAll('circle').data(this.nodesData)
       .enter()
@@ -72,7 +89,7 @@ export class ProfilegraphComponent implements OnInit {
     this.nodesSelection.append('title').text((n: any) => n.id);
 
     // draw the id as text right next to the nodes shape
-    this.textsSelection = this.svg.append('g')
+    this.textsSelection = this.graphSelection.append('g')
       .selectAll('text').data(this.nodesData)
       .enter()
       .append('text')
@@ -80,7 +97,7 @@ export class ProfilegraphComponent implements OnInit {
   }
 
   drawEdges(): void {
-    this.linksSelection = this.svg
+    this.linksSelection = this.graphSelection
       .append('g').attr('class', 'links')
       .selectAll('line').data(this.linksData)
       .enter()
@@ -92,19 +109,16 @@ export class ProfilegraphComponent implements OnInit {
   }
 
   attachZoomAndPanning() {
-    // this.svg.call(d3.zoom()
-    //   .scaleExtent([0.5, 1.5])
-    //   .on('zoom', (ev: any) => this.svg.attr('transform', ev.transform)));
+    const zoom = d3.zoom()
+      .scaleExtent([0.5, 1.5])
+      .on('zoom', (ev: any) => this.zoomed(ev));
 
-    // problem: the while svg gets zoomed
-    // this.svg.call(d3.zoom()
-    //   .scaleExtent([0.5, 1.5])
-    //   .on('zoom', (ev: any) => this.zoomed(ev)));
+    this.listenerRect.call(zoom);
   }
 
   createForceSimulation(): void {
-    const w = this.svg.attr('width');
-    const h = this.svg.attr('height');
+    const w = this.graphSelection.attr('width');
+    const h = this.graphSelection.attr('height');
     this.simulation = d3.forceSimulation()
       .force('link', d3.forceLink().strength(0.05).id((l: any) => l.id))
       .force('charge', d3.forceManyBody())
@@ -118,8 +132,8 @@ export class ProfilegraphComponent implements OnInit {
   // event handlers for d3
 
   dragged(event: any, item: any): any {
-    const w = this.svg.attr('width');
-    const h = this.svg.attr('height');
+    const w = this.graphSelection.attr('width');
+    const h = this.graphSelection.attr('height');
     item.fx = Math.max(0, Math.min(w, event.x));
     item.fy = Math.max(0, Math.min(h, event.y));
   }
@@ -152,32 +166,10 @@ export class ProfilegraphComponent implements OnInit {
 
   zoomed(event: any): void {
 
-    // prevent default event behavior
-    //event.preventDefault();
+    var transform = event.transform;
 
-    // set zooming
-    var factor = 1.1;
-    var center = d3.pointer(event);
-    console.log(center);
-    var newTx, newTy, newScale;
-
-    // calculate new scale
-    if (event.sourceEvent.deltaY > 0) {
-      newScale = this.scale * factor;
-    } else {
-      newScale = this.scale / factor;
-    }
-
-    // calculate new translate position
-    // [current mouse position] - ([current mouse position] - [current translate]) * magnification
-    newTx = center[0] - (center[0] - this.tx) * newScale / this.scale;
-    newTy = center[1] - (center[1] - this.ty) * newScale / this.scale;
-
-    // set new scale and translate position
-    this.scale = newScale;
-    this.tx = newTx;
-    this.ty = newTy;
-
-    this.svg.attr('transform', `translate(${this.tx}, ${this.ty}) scale(${this.scale})`);
+    this.nodesSelection.attr('transform', transform.toString());
+    this.linksSelection.attr('transform', transform.toString());
+    this.textsSelection.attr('transform', transform.toString());
   }
 }
