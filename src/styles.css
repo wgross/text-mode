@@ -1,1 +1,43 @@
-/* You can add global styles to this file, and also import other style files */
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
+body {
+  background: rgb(59, 59, 59);
+  color:orange;
+  margin: 0pt;
+  font-family: "Lucida Console", "Courier", monospace;
+}
+
+.text-right {
+  padding-top: 10px;
+  color: white;
+}
+
+.text-right-nopadding {
+  color: white;
+}
+
+
+.nav-link {
+  color: orange;
+}
+
+.nav-link:focus {
+  color: orange;
+}
+
+.nav-link:hover {
+  color: rgba(255, 123, 0, 0.973);
+}
+
+.text-left-heading {
+  padding-top: 10px;
+}
+
+.box {
+  box-sizing: border-box;
+  border-left: 2px solid orange;
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+

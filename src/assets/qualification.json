@@ -1,0 +1,63 @@
+{
+  "nodes": [
+    {"id": "C#", "group": 1, "weight":15},
+    {"id": "Typescript", "group": 1,"weight":4},
+    {"id": "Java", "group": 1, "weight":2},
+    {"id": "C++", "group": 1, "weight":4},
+    {"id": "WiX", "group": 1, "weight":6},
+    {"id": "SQL", "group": 1, "weight":7},
+
+    {"id": "Entity-Framework", "group":2 , "weight":10},
+    {"id": "WPF", "group":2 ,"weight":9},
+    {"id": "WinForms", "group":2 ,"weight":3},
+    {"id": "Angular", "group":2 ,"weight":4},
+    {"id": ".Net", "group":2 ,"weight":8},
+    {"id": ".NetCore", "group":2 ,"weight":10},
+    {"id": "Asp.Net", "group":2 ,"weight":8},
+    {"id": "Spring.Boot", "group":2 ,"weight":1},
+
+    {"id": "Microservices","group":3,"weight":10},
+    {"id": "Webservices","group":3,"weight":8},
+    {"id": "Desktop", "group": 3 ,"weight":9},
+
+    {"id": "REST", "group":4 ,"weight":10},
+    {"id": "JSON", "group":4 ,"weight":10},
+    {"id": "HTTP", "group":4 ,"weight":10},
+    {"id": "SOAP", "group":4 ,"weight":7},
+    {"id": "XML", "group":4 ,"weight":5}
+  ],
+
+  "links": [
+    {"source": "C#", "target": "Entity-Framework", "value": 1},
+    {"source": "C#", "target": "Asp.Net", "value": 1},
+    {"source": "C#", "target": "WPF", "value": 1},
+    {"source": "C#", "target": "WinForms", "value": 1},
+    {"source": "C#", "target": ".Net", "value": 1},
+    {"source": "C#", "target": ".NetCore", "value": 1},
+
+    {"source": "Typescript", "target": "Angular", "value": 1},
+    {"source": "Java", "target": "Spring.Boot", "value": 1},
+
+    {"source": "C++", "target": "Desktop", "value": 1},
+
+    {"source": "Desktop", "target": "WPF", "value": 1},
+    {"source": "Desktop", "target": "WinForms", "value": 1},
+    {"source": "Desktop", "target": "WiX", "value": 1},
+    {"source": "Desktop", "target": "SQL", "value": 1},
+
+    {"source": "Webservices", "target": ".Net", "value": 1},
+    {"source": "Webservices", "target": "Asp.Net", "value": 1},
+    {"source": "Webservices", "target": "SOAP", "value": 1},
+    {"source": "Webservices", "target": "XML", "value": 1},
+    {"source": "Webservices", "target": "SQL", "value": 1},
+
+    {"source": "Microservices", "target": ".NetCore", "value": 1},
+    {"source": "Microservices", "target": "Spring.Boot", "value": 1},
+    {"source": "Microservices", "target": "Angular", "value": 1},
+    {"source": "Microservices", "target": "REST", "value": 1},
+    {"source": "Microservices", "target": "HTTP", "value": 1},
+    {"source": "Microservices", "target": "JSON", "value": 1},
+    {"source": "Microservices", "target": "SQL", "value": 1}
+  ]
+}
+
