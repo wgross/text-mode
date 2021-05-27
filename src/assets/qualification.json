@@ -6,6 +6,7 @@
     {"id": "C++", "group": 1, "weight":4},
     {"id": "WIX", "group": 1, "weight":6},
     {"id": "SQL", "group": 1, "weight":8},
+    {"id": "PowerShell", "group": 1, "weight":9},
 
     {"id": "Entity-Framework", "group":2 , "weight":10},
     {"id": "WPF", "group":2 ,"weight":9},
@@ -34,6 +35,9 @@
     {"source": "C#", "target": "WinForms", "value": 1},
     {"source": "C#", "target": ".Net", "value": 1},
     {"source": "C#", "target": ".NetCore", "value": 1},
+    {"source": "PowerShell", "target": "Desktop", "value": 1},
+    {"source": "PowerShell", "target": "Microservices", "value": 1},
+    {"source": "PowerShell", "target": "Webservices", "value": 1},
 
     {"source": "Entity-Framework", "target": ".Net", "value": 1},
     {"source": "Entity-Framework", "target": ".NetCore", "value": 1},

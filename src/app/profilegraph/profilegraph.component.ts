@@ -132,10 +132,10 @@ export class ProfilegraphComponent implements OnInit {
   // event handlers for d3
 
   dragged(event: any, item: any): any {
-    const w = this.graphSelection.attr('width');
-    const h = this.graphSelection.attr('height');
-    item.fx = Math.max(0, Math.min(w, event.x));
-    item.fy = Math.max(0, Math.min(h, event.y));
+    const w = this.listenerRect.attr('width');
+    const h = this.listenerRect.attr('height');
+    item.fx = event.x;
+    item.fy = event.y;
   }
 
   dragStarted(event: any, item: any): any {
