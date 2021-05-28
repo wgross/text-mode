@@ -10,6 +10,7 @@ body {
 .text-right {
   padding-top: 10px;
   color: white;
+  font-size:small;
 }
 
 .text-right-nopadding {
@@ -17,17 +18,17 @@ body {
   color: white;
 }
 
-.nav-link {
+/* .nav-link {
   color: orange;
-}
+} */
 
-.nav-link:focus {
+/* .nav-link:focus {
   color: orange;
-}
+} */
 
-.nav-link:hover {
+/* .nav-link:hover {
   color: rgba(255, 123, 0, 0.973);
-}
+} */
 
 .text-left-heading {
   padding-top: 10px;
@@ -40,4 +41,5 @@ body {
   padding-top: 10px;
   padding-bottom: 10px;
 }
+
 
