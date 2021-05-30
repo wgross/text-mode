@@ -1,38 +1,35 @@
 {
   "nodes": [
-    {"id": "C#", "group": 1, "weight":16},
-    {"id": "TypeScript", "group": 1,"weight":4},
-    {"id": "Java", "group": 1, "weight":2},
-    {"id": "C++", "group": 1, "weight":4},
-    {"id": "WIX", "group": 1, "weight":6},
-    {"id": "SQL", "group": 1, "weight":8},
-    {"id": "PowerShell", "group": 1, "weight":9},
+    {"id": "C#", "group": 1, "weight":16, "text":"Main programming language since 2002"},
+    {"id": "TypeScript", "group": 1,"weight":4, "text":"used since 2014 to implement web single page applications with Angular and tests with Jasmine."},
+    {"id": "Java", "group": 1, "weight":2, "text": "Used through 2014 to 2017 for web services in SIEMENS Mindshpere."},
+    {"id": "C++", "group": 1, "weight":4, "text": "Intensively used from 1998 to 2002: Implementation of business logic for POS systems."},
+    {"id": "WIX", "group": 1, "weight":6, "text": "Used from 2014 to 2018 for deployment of desktop applications and web services"},
+    {"id": "SQL", "group": 1, "weight":8, "text":"Intensively used since 2002 for querying and schema definition where Entity Framework wasn't applicable."},
+    {"id": "PowerShell", "group": 1, "weight":9, "text": "Intensively used since 2010: Build automation and tooling, deployment of web applications DEV machines."},
 
-    {"id": "Entity-Framework", "group":2 , "weight":10},
-    {"id": "WPF", "group":2 ,"weight":9},
-    {"id": "WinForms", "group":2 ,"weight":3},
-    {"id": "Angular", "group":2 ,"weight":4},
-    {"id": ".Net", "group":2 ,"weight":8},
-    {"id": ".NetCore", "group":2 ,"weight":16},
-    {"id": "Asp.Net", "group":2 ,"weight":8},
-    {"id": "Spring.Boot", "group":2 ,"weight":2},
+    {"id": "Entity-Framework", "group":10 , "weight":10, "text":"Intensively used throughout 2014 to 2021 as main method for data access."},
+    {"id": "WPF", "group":2 ,"weight":10, "text":"Intensively used throughout 2014 to 2017. Graphical user interfaces for business applications and vector graphic UI for ticket vending machines. user controls, custom controls, theming, localization, modularization with Prism."},
+    {"id": "Angular", "group":2 ,"weight":4, "text":"Used since 2014 to implement Single-Page-Applications." },
+    {"id": ".Net", "group":2 ,"weight":10, "text": "Continuously uses since 2002, Mainly used: WCF, WF, WPF, a bit Forms."},
+    {"id": ".NetCore", "group":2 ,"weight":16, "text": "Continuously used since 2017."},
+    {"id": "Asp.Net", "group":2 ,"weight":12, "text": "As part of dotnet core continuously used since 2017 for domain services and UI backends."},
+    {"id": "Spring.Boot", "group":2 ,"weight":2, "text":"used for web services in Mindsphere."},
 
-    {"id": "Microservices","group":3,"weight":8},
+    {"id": "Microservices","group":3,"weight":12, "text":"Architectural style applied to projects since 2017."},
     {"id": "Webservices","group":3,"weight":8},
-    {"id": "Desktop", "group": 3 ,"weight":9},
+    {"id": "Desktop", "group": 3 ,"weight":9, "text":"Desktop software developed with C# and C++ including Form oriented line of business application as wel as folly graphical, themed UIs for vending machines and POS."},
 
     {"id": "REST", "group":4 ,"weight":10},
     {"id": "JSON", "group":4 ,"weight":10},
     {"id": "HTTP", "group":4 ,"weight":10},
-    {"id": "SOAP", "group":4 ,"weight":7},
-    {"id": "XML", "group":4 ,"weight":5}
+    {"id": "SOAP", "group":4 ,"weight":6}
   ],
 
   "links": [
     {"source": "C#", "target": "Entity-Framework", "value": 1},
     {"source": "C#", "target": "Asp.Net", "value": 1},
     {"source": "C#", "target": "WPF", "value": 1},
-    {"source": "C#", "target": "WinForms", "value": 1},
     {"source": "C#", "target": ".Net", "value": 1},
     {"source": "C#", "target": ".NetCore", "value": 1},
     {"source": "PowerShell", "target": "Desktop", "value": 1},
@@ -48,14 +45,12 @@
     {"source": "C++", "target": "Desktop", "value": 1},
 
     {"source": "Desktop", "target": "WPF", "value": 1},
-    {"source": "Desktop", "target": "WinForms", "value": 1},
     {"source": "Desktop", "target": "WIX", "value": 1},
     {"source": "Desktop", "target": "SQL", "value": 1},
 
     {"source": "Webservices", "target": ".Net", "value": 1},
     {"source": "Webservices", "target": "Asp.Net", "value": 1},
     {"source": "Webservices", "target": "SOAP", "value": 1},
-    {"source": "Webservices", "target": "XML", "value": 1},
     {"source": "Webservices", "target": "SQL", "value": 1},
 
     {"source": "Microservices", "target": ".NetCore", "value": 1},

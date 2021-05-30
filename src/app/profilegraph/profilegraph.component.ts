@@ -1,7 +1,7 @@
 import { AfterViewInit } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import * as d3 from 'd3';
-import { min } from 'd3';
+import { min, thresholdFreedmanDiaconis } from 'd3';
 import { ProfileNode, ProfileLink } from "../profile-node";
 
 @Component({
@@ -15,6 +15,9 @@ export class ProfilegraphComponent implements OnInit {
   linksSelection?: any;
   textsSelection?: any;
   simulation?: d3.Simulation<d3.SimulationNodeDatum, undefined>;
+
+  descriptionTitle?:string = undefined;
+  descriptionText?:string = undefined;
 
   constructor() { }
 
@@ -58,7 +61,7 @@ export class ProfilegraphComponent implements OnInit {
     this.graphSelection = this.graphSelection = d3.select("#graphContainer")
       .append('svg').attr('width', 700).attr('height', 600)
       .append('g').attr('class', 'graph')
-      .attr('transform', 'translate(300, 300)');
+      .attr('transform', 'translate(350, 300)'); // move the center of the graoh to the center of the canvas
 
 
     this.listenerRect = this.graphSelection.append('rect')
@@ -83,7 +86,8 @@ export class ProfilegraphComponent implements OnInit {
       .call(d3.drag()
         .on('start', (ev, d) => this.dragStarted(ev, d))
         .on('drag', (ev, d) => this.dragged(ev, d))
-        .on('end', (ev, d) => this.dragEnded(ev, d)));
+        .on('end', (ev, d) => this.dragEnded(ev, d)))
+      .on('click', (ev:any, d:any)=>this.clicked(ev, d));
 
     // add a popup with the id
     this.nodesSelection.append('title').text((n: any) => n.id);
@@ -94,6 +98,10 @@ export class ProfilegraphComponent implements OnInit {
       .enter()
       .append('text')
       .text((n: any) => n.id).attr('font-size', 14).attr('dx', 15).attr('dy', 4).attr('fill', 'lightgray');
+  }
+  clicked(ev: any, d:any) {
+    this.descriptionTitle = d.id;
+    this.descriptionText = d.text;
   }
 
   drawEdges(): void {
